@@ -1,97 +1,224 @@
-# Transaction Processing System  
-### Mini Project – 24UCS271 Lab
+# 🏦 Bank Account Management System (C Project)
 
 ---
 
-## Objective
-This mini project focuses on understanding, modifying, and extending a **Transaction Processing System** program. Students are expected to analyze existing code, improve it, and add new functionalities while following good coding practices.
+## 📖 Overview
+
+A **Bank Account Management System** built in C using **file handling and structured data storage**. This project simulates real-world banking operations such as account creation, transactions, authentication, and statement generation using a **random-access file system (********`credit.dat`************)**.
+
 
 ---
 
-## Reference Code
-Review the given source code before starting the project:
+## 📌 Features
 
-🔗 https://replit.com/@ashokb/Unit5Programs#trans.c
+### 🔐 Authentication
 
----
+* Admin login system
+* PIN-based verification for each account
+* PIN is stored in the binary file (`admin.dat`)
+* Prevents unauthorized access to sensitive operations
 
-## Tasks to be Performed
+ 
 
-1. Compile and run the given executable code.
-2. Perform your own testing of the program.
-3. Add a new account detail and regenerate the `accounts.txt` file.
-   - Inspect the contents of the file.
-   - Verify whether the output matches your expectations.
-4. Identify and fix any logical errors in the program.
-5. Add new functionality  
-   - Example: Listing all account information.
-6. Optimize the program for better performance and efficiency.
+ 
+### 👤 Account Management
 
----
+* Create new accounts with:
+ 
 
-## Evaluation Criteria
+  * Name, Gender, DOB
+  * Nationality
+  * Account Type (Savings, Current, Student, Senior)
+* Update account balance
+* Delete existing accounts
+* Search for specific accounts
+* Display all accounts in formatted table
 
-### 1. General (25 Points)
-| Activity | Points | Remarks |
-|--------|--------|--------|
-| Self-effort | 5 | Student’s own assessment of hours spent (no copying or external references) |
-| Turnaround Time | 10 | Provide three time slots; earlier demo gets more points |
-| Project Demo | 10 | Demo must be done using repl.it |
+ 
+💾 Data stored in binary file (`credit.dat`) and exported to `accounts.txt`
 
----
+ 
+### 💰 Transactions
 
-### 2. Comprehension (15 Points)
-| Activity | Points |
-|--------|--------|
-| Domain Knowledge | 5 |
-| Added Functionality (Ideas) | 5 |
-| Code Comprehension | 5 |
+* Deposit money
+* Withdraw money
+* Transfer funds between accounts
+* Automatic balance validation (no negative balances)
 
----
+### 📜 Transaction Logging
 
-### 3. Modification (35 Points)
-| Activity | Points |
-|--------|--------|
-| Code Improvement | 5 |
-| Functional Decomposition | 10 |
-| Refactoring for Memory Usage | 10 |
-| Refactoring for Speed | 10 |
+* Every transaction is recorded in `transaction.txt`
+* Includes:
 
----
+  * Timestamp
+  * Transaction type
+  * Account details
+  * Amount and balance
 
-### 4. Innovation (45 Points)
-| Activity | Points |
-|--------|--------|
-| New Features / User Stories (Faculty specified) | 5 |
-| Requirement to Code Translation | 10 |
-| Added Functionality (Simple – Error Handling) | 10 |
-| Added Functionality (Advanced) | 20 |
+### 📄 Statement Generation
 
----
+* Generate individual account statements
+* Stored as: `statement_<account_number>.txt`
+* Includes:
 
-## Total Marks
-**120 Marks**  
-➡ Reduced to **20 Marks** for final evaluation
+  * Account details
+  * Full transaction history
+
+### 📊 File Handling
+
+* Binary file: `credit.dat` (stores all accounts)
+* Text file: `accounts.txt` (formatted for printing)
+* Log file: `transaction.txt` (transaction history)
 
 ---
 
-## Rules for Mini Project Implementation
+## 🗂️ Project Structure
 
-- Maximum of **2 attempts** will be given for project presentation.
-- If dissatisfied with the first score, a second attempt is allowed.
-- The **best score** out of the two attempts will be considered final.
-- Discussion and clarification among students are allowed.
-- **Copying or borrowing code is strictly prohibited.**
-- Violation of plagiarism rules will result in a **zero (0 / NULL) score**.
-
----
-
-## Additional Reference
-🔗 http://j.mp/transactionUnit5  
-🔗 https://htmlpreview.github.io/?https://github.com/kgisl/makesite/blob/master/content/blog/2021-06-23-unit5-mini-project.md.html
-🔗 https://github.com/24UCS271-MiniProject/miniProjectSourceCode/
+```
+📁 Project Folder
+│
+├── credit.dat            # Binary file (account database)
+├── accounts.txt          # Formatted account list
+├── transaction.txt       # Transaction history log
+├── statement_*.txt       # Generated account statements
+├── trans.c               # Main source code
+```
 
 ---
 
-**Date:** 31/01/2026  
-**Time:** 06:42
+## ⚙️ How It Works
+
+### 🔄 File Initialization
+
+* If `credit.dat` does not exist:
+
+  * System initializes **100 empty records**
+  * Each record represents one account slot
+
+### 📍 Random Access Logic
+
+* Each account is stored at a fixed position:
+
+```
+Position = (account_number - 1) * sizeof(struct clientData)
+```
+
+* Enables fast read/write operations
+
+---
+
+## 🧠 Data Structure
+
+```c
+struct clientData
+{
+    unsigned int acctNum;
+    char lastName[15];
+    char firstName[10];
+    char gender[10];
+    char dob[12];
+    char nationality[20];
+    char accountType[20];
+    double balance;
+    int pin;
+};
+```
+
+---
+
+## 🖥️ Menu Options
+
+```
+1  - Export accounts to text file
+2  - Update account
+3  - Add new account
+4  - Delete account
+5  - Exit
+6  - Search account
+7  - Display all accounts
+8  - Deposit money
+9  - Withdraw money
+10 - Transfer money
+11 - View all transactions
+12 - View transactions by account
+13 - Generate account statement
+14 - Leaderboard
+```
+
+---
+
+## 🔒 Security Features
+
+* Admin login required to access system  
+  - Username: admin  
+  - Password: 1234  
+
+* PIN stored in binary file (`admin.dat`) (not encrypted)
+
+* PIN verification required for:
+  - Deposit
+  - Withdraw
+  - Transfer
+  - Update
+  - Delete
+  - Statement generation
+* Input validation:
+
+  * Account number range (1–100)
+  * DOB format (DD/MM/YYYY)
+  * Valid account types
+  * Non-negative balances
+
+---
+
+## 🧪 Sample Outputs
+
+### 📄 Account Table (`accounts.txt`)
+
+```
+| Acct | Last Name     | First Name | Gender | DOB        | Nationality  | Type     | Balance    |
+============================================================================================================
+| 1    | Kumar         | Ravi       | Male   | 12/05/2000 | Indian       | savings  |   5000.00  |
+```
+
+### 📜 Transaction Log
+
+```
+[22/03/2026 14:32:10] DEPOSIT: Acc 1 | Amount: 1000.00 | Balance: 6000.00
+[22/03/2026 15:10:45] TRANSFER: From Acc 1 -> To Acc 2 | Amount: 500.00
+```
+
+---
+
+## 🚀 How to Compile & Run
+
+### 🛠️ Compile
+
+```bash
+gcc trans.c -o trans
+```
+
+### ▶️ Run
+
+```bash
+./trans
+```
+
+---
+
+## 💡 Unique Highlights
+
+* 📌 Real-world banking simulation
+* ⚡ Fast random-access file handling
+* 🔍 Transaction filtering by account
+* 📄 Auto-generated statements
+* 🔐 Role-based access control (Admin + PIN verification)
+* 🧾 Clean formatted outputs
+
+---
+
+## ⚠️ Limitations
+
+* Maximum 100 accounts
+* PIN stored without encryption (not secure for real-world use)
+* CLI-based interface (no GUI)
